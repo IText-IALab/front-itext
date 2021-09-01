@@ -55,19 +55,13 @@ const ScreenUploader = () => {
         </Box>
       )}
       <div className={styles.file_list}>
-        {filesCopy.map((file, i) => (
-          <Card className={classes.root} key={`${file.property.name}${i.toString()}`}>
+        {filesRedux.files.map((file, i) => (
+          <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
             <CardActionArea>
-              <Image
-                loader={customLoader}
-                alt="Avatar"
-                width={120}
-                height={140}
-                src={file.property.name.includes('.pdf') ? '/pdficon.png' : file.src}
-              />
+              <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
               <CardContent>
                 <Typography gutterBottom component="p">
-                  {file.property.name.slice(0, 10)}
+                  {file.file.name}
                 </Typography>
               </CardContent>
             </CardActionArea>
