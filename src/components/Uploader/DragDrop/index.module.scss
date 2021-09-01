@@ -1,0 +1,16 @@
+.container_uploader {
+  align-items: center;
+  background-color: #ffffff;
+  border-color: gray;
+  border-radius: 2px;
+  border-style: dashed;
+  border-width: 2px;
+  color: gray;
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  outline: none;
+  padding: 30px;
+  transition: border 0.24s ease-in-out;
+}

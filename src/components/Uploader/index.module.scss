@@ -1,0 +1,12 @@
+.file_item {
+  border: 0.1rem solid #b3b3b3;
+  margin-top: 15px;
+  padding: 15px;
+}
+
+.file_list {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
