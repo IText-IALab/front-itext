@@ -1,0 +1,21 @@
+import React, { useState } from 'react';
+
+import UploaderContext from '~/providers/uploader/UploaderContext';
+import { FilesState } from '~/types/uploader';
+
+const UploaderProvider = (props: any) => {
+  const [files, setFiles] = useState<FilesState[]>([]);
+
+  const setFilesUploader = (f: FilesState) => {
+    setFiles([...files, f]);
+  };
+
+  const value = {
+    setFilesUploader,
+    filesUploader: files,
+  };
+
+  return <UploaderContext.Provider value={value}>{props.children}</UploaderContext.Provider>;
+};
+
+export default UploaderProvider;
