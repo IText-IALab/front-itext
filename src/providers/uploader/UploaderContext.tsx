@@ -4,7 +4,7 @@ import { FilesState } from '~/types/uploader';
 
 export type GlobalFile = {
   filesUploader: FilesState[];
-  setFilesUploader: (f: FilesState) => void;
+  setFilesUploader: (f: File) => void;
 };
 
 const UploaderContext = createContext<GlobalFile>({

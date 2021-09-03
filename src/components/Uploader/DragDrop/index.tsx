@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import styles from './index.module.scss';
 import uploaderController from '~/controller/uploader';
 import i18n from '~/internationalization';
+import { useUploaderContext } from '~/providers/uploader/UploaderContext';
 
 type DataImage = {
   name?: string;
@@ -29,9 +30,11 @@ interface UploaderProps {
 const Uploader = ({ onChange, multiple = true, title = '', accept = 'image/*' }: UploaderProps) => {
   const [files, setFiles] = useState<DataImage[]>([] as DataImage[]);
   const placeholder = title || i18n.get('PLACEHOLDER_UPLOADER_DRAG');
+  const { setFilesUploader } = useUploaderContext();
+
   const foo = (acceptedFiles: any[]) => {
     if (acceptedFiles.length === 0) return;
-    acceptedFiles.forEach((file: File) => uploaderController.saveFile(file));
+    acceptedFiles.forEach((file: File) => setFilesUploader(file));
   };
   const { getRootProps, getInputProps } = useDropzone({
     accept,

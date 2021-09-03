@@ -6,8 +6,12 @@ import { FilesState } from '~/types/uploader';
 const UploaderProvider = (props: any) => {
   const [files, setFiles] = useState<FilesState[]>([]);
 
-  const setFilesUploader = (f: FilesState) => {
-    setFiles([...files, f]);
+  const setFilesUploader = (file: File) => {
+    const newFile: FilesState = {
+      file,
+      imageUrl: URL.createObjectURL(file),
+    };
+    setFiles((f) => [...f, newFile]);
   };
 
   const value = {

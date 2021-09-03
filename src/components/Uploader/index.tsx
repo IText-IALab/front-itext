@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 
 import Uploader, { FilesState } from './DragDrop';
 import styles from './index.module.scss';
+import { useUploaderContext } from '~/providers/uploader/UploaderContext';
+import UploaderProvider from '~/providers/uploader/UploaderProvider';
 import { uploaderSelector } from '~/state/features/uploaderSlice';
 
 const useStyles = makeStyles({
@@ -20,10 +22,9 @@ const ScreenUploader = () => {
   const classes = useStyles();
   const [filesLoad, setFilesLoad] = useState<FilesState | []>([]);
   const [filesCopy, setFilesCopy] = useState<FilesState | []>([]);
-  const filesRedux = useSelector(uploaderSelector);
+  const { filesUploader } = useUploaderContext();
 
   useEffect(() => {
-    console.log(filesRedux);
     if (filesLoad.length > 0) {
       setTimeout(() => {
         setFilesLoad([]);
@@ -44,31 +45,35 @@ const ScreenUploader = () => {
     const stateAux = [...filesCopy, ...files];
     setFilesCopy(stateAux as FilesState);
   };
+
   return (
-    <Fragment>
-      <Box paddingTop="40px">
-        <Uploader onChange={onChange} multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
-      </Box>
-      {filesLoad.length > 0 && (
-        <Box display="flex" justifyContent="center" alignItems="center" marginY="30px">
-          <CircularProgress />
+    <UploaderProvider>
+      <Fragment>
+        <Box paddingTop="40px">
+          <Uploader onChange={onChange} multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
         </Box>
-      )}
-      <div className={styles.file_list}>
-        {filesRedux.files.map((file, i) => (
-          <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
-            <CardActionArea>
-              <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
-              <CardContent>
-                <Typography gutterBottom component="p">
-                  {file.file.name}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
-      </div>
-    </Fragment>
+        {filesLoad.length > 0 && (
+          <Box display="flex" justifyContent="center" alignItems="center" marginY="30px">
+            <CircularProgress />
+          </Box>
+        )}
+        <div className={styles.file_list}>
+          {filesUploader.length < 0 &&
+            filesUploader.map((file, i) => (
+              <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
+                <CardActionArea>
+                  <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
+                  <CardContent>
+                    <Typography gutterBottom component="p">
+                      {file.file.name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
+        </div>
+      </Fragment>
+    </UploaderProvider>
   );
 };
 
