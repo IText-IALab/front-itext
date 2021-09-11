@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 import Uploader, { FilesState } from './DragDrop';
 import styles from './index.module.scss';
+import { useUploaderContext } from '~/providers/uploader/UploaderContext';
 import { uploaderSelector } from '~/state/features/uploaderSlice';
 
 const useStyles = makeStyles({
@@ -20,10 +21,10 @@ const ScreenUploader = () => {
   const classes = useStyles();
   const [filesLoad, setFilesLoad] = useState<FilesState | []>([]);
   const [filesCopy, setFilesCopy] = useState<FilesState | []>([]);
-  const filesRedux = useSelector(uploaderSelector);
+  const { filesUploader } = useUploaderContext();
 
+  console.log(filesUploader);
   useEffect(() => {
-    console.log(filesRedux);
     if (filesLoad.length > 0) {
       setTimeout(() => {
         setFilesLoad([]);
@@ -44,6 +45,7 @@ const ScreenUploader = () => {
     const stateAux = [...filesCopy, ...files];
     setFilesCopy(stateAux as FilesState);
   };
+
   return (
     <Fragment>
       <Box paddingTop="40px">
@@ -55,18 +57,19 @@ const ScreenUploader = () => {
         </Box>
       )}
       <div className={styles.file_list}>
-        {filesRedux.files.map((file, i) => (
-          <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
-            <CardActionArea>
-              <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
-              <CardContent>
-                <Typography gutterBottom component="p">
-                  {file.file.name}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+        {filesUploader.length > 0 &&
+          filesUploader.map((file, i) => (
+            <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
+              <CardActionArea>
+                <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
+                <CardContent>
+                  <Typography gutterBottom component="p">
+                    {file.file.name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
       </div>
     </Fragment>
   );
