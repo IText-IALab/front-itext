@@ -30,11 +30,11 @@ interface UploaderProps {
 const Uploader = ({ onChange, multiple = true, title = '', accept = 'image/*' }: UploaderProps) => {
   const [files, setFiles] = useState<DataImage[]>([] as DataImage[]);
   const placeholder = title || i18n.get('PLACEHOLDER_UPLOADER_DRAG');
-  const { setFilesUploader } = useUploaderContext();
+  const { setFilesUploaded } = useUploaderContext();
 
   const foo = (acceptedFiles: any[]) => {
     if (acceptedFiles.length === 0) return;
-    acceptedFiles.forEach((file: File) => setFilesUploader(file));
+    acceptedFiles.forEach((file: File) => setFilesUploaded(file));
   };
   const { getRootProps, getInputProps } = useDropzone({
     accept,

@@ -1,14 +1,16 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
 
-import { Box, Card, CardActionArea, CardContent, CircularProgress, Typography } from '@material-ui/core';
+import { Button, Box, Card, CardActionArea, CardContent, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
 
 import Uploader, { FilesState } from './DragDrop';
 import styles from './index.module.scss';
+import uploaderController from '~/controller/uploader';
 import { useUploaderContext } from '~/providers/uploader/UploaderContext';
 import { uploaderSelector } from '~/state/features/uploaderSlice';
+import { getFile } from '~/utils/ToBase64';
 
 const useStyles = makeStyles({
   root: {
@@ -21,9 +23,9 @@ const ScreenUploader = () => {
   const classes = useStyles();
   const [filesLoad, setFilesLoad] = useState<FilesState | []>([]);
   const [filesCopy, setFilesCopy] = useState<FilesState | []>([]);
-  const { filesUploader } = useUploaderContext();
+  const { filesUploaded } = useUploaderContext();
+  const { text } = useSelector(uploaderSelector);
 
-  console.log(filesUploader);
   useEffect(() => {
     if (filesLoad.length > 0) {
       setTimeout(() => {
@@ -31,6 +33,7 @@ const ScreenUploader = () => {
       }, 6000);
     }
   }, [filesLoad]);
+
   const triggerFileLoad = useCallback(
     (files: FilesState) => {
       const newState = [...filesLoad, ...files];
@@ -46,6 +49,12 @@ const ScreenUploader = () => {
     setFilesCopy(stateAux as FilesState);
   };
 
+  useEffect(() => {
+    if (text !== '') {
+      uploaderController.sendDocuments(text);
+    }
+  }, [text]);
+
   return (
     <Fragment>
       <Box paddingTop="40px">
@@ -57,8 +66,8 @@ const ScreenUploader = () => {
         </Box>
       )}
       <div className={styles.file_list}>
-        {filesUploader.length > 0 &&
-          filesUploader.map((file, i) => (
+        {filesUploaded.length > 0 &&
+          filesUploaded.map((file, i) => (
             <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
               <CardActionArea>
                 <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
@@ -70,6 +79,13 @@ const ScreenUploader = () => {
               </CardActionArea>
             </Card>
           ))}
+        <Button
+          onClick={() => {
+            getFile(filesUploaded[0].file);
+          }}
+        >
+          Enviar
+        </Button>
       </div>
     </Fragment>
   );

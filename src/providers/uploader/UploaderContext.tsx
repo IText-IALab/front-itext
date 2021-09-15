@@ -3,13 +3,13 @@ import { createContext, useContext } from 'react';
 import { FilesState } from '~/types/uploader';
 
 export type GlobalFile = {
-  filesUploader: FilesState[];
-  setFilesUploader: (f: File) => void;
+  filesUploaded: FilesState[];
+  setFilesUploaded: (f: File) => void;
 };
 
 const UploaderContext = createContext<GlobalFile>({
-  filesUploader: [],
-  setFilesUploader: () => {},
+  filesUploaded: [],
+  setFilesUploaded: () => {},
 });
 
 // hook

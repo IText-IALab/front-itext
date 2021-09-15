@@ -75,6 +75,10 @@ const CONFIG = {
       URL: process.env.NEXT_PUBLIC_NASA_APOD_URL || envError('NEXT_PUBLIC_NASA_APOD_URL'),
       API_KEY: process.env.NEXT_PUBLIC_NASA_APOD_API_KEY || envError('NEXT_PUBLIC_NASA_APOD_API_KEY'),
     },
+    UPLOADER: {
+      URL: process.env.NEXT_PUBLIC_UPLOADER_URL || envError('NEXT_PUBLIC_UPLOADER_URL'),
+      API_KEY: process.env.NEXT_PUBLIC_UPLOADER_API_KEY || envError('NEXT_PUBLIC_UPLOADER_API_KEY'),
+    },
   },
 };
 
