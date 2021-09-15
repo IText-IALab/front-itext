@@ -13,18 +13,17 @@ const removeComma = (result: string): string => {
 export const fileToBase64 = (file: File, cb: callBack) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
-  reader.onload = function () {
+  reader.onload = () => {
     // console.log('este es el base 64', reader.result);
     cb(null, reader.result);
   };
-  reader.onerror = function (error) {
+  reader.onerror = (error) => {
     cb(error, null);
   };
 };
 
 export const getFile = (file: File) => {
   const response = fileToBase64(file, (err, result) => {
-    console.log('result en callbal', result);
     if (result) {
       uploaderActions.setFileString(removeComma(result));
     }

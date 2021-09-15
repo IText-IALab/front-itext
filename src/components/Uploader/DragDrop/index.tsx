@@ -1,16 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 
 import styles from './index.module.scss';
-import uploaderController from '~/controller/uploader';
 import i18n from '~/internationalization';
 import { useUploaderContext } from '~/providers/uploader/UploaderContext';
-
-type DataImage = {
-  name?: string;
-  imageURL?: string;
-};
 
 type PropertyUpload = {
   isUpload: boolean;
@@ -21,14 +15,12 @@ type PropertyUpload = {
 export type FilesState = File & { src: string; imageUrl: string; property: PropertyUpload }[];
 
 interface UploaderProps {
-  onChange?: (file: FilesState) => unknown;
   multiple?: boolean;
   title?: string;
   accept?: string;
 }
 
-const Uploader = ({ onChange, multiple = true, title = '', accept = 'image/*' }: UploaderProps) => {
-  const [files, setFiles] = useState<DataImage[]>([] as DataImage[]);
+const Uploader = ({ multiple = true, title = '', accept = 'image/*' }: UploaderProps) => {
   const placeholder = title || i18n.get('PLACEHOLDER_UPLOADER_DRAG');
   const { setFilesUploaded } = useUploaderContext();
 
@@ -39,7 +31,7 @@ const Uploader = ({ onChange, multiple = true, title = '', accept = 'image/*' }:
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple,
-    onDrop: useCallback(foo, []),
+    onDrop: useCallback(foo, [setFilesUploaded]),
   });
 
   return (

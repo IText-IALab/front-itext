@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { Button, Box, Card, CardActionArea, CardContent, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 const ScreenUploader = () => {
   const classes = useStyles();
   const [filesLoad, setFilesLoad] = useState<FilesState | []>([]);
-  const [filesCopy, setFilesCopy] = useState<FilesState | []>([]);
   const { filesUploaded } = useUploaderContext();
   const { text } = useSelector(uploaderSelector);
 
@@ -34,20 +33,7 @@ const ScreenUploader = () => {
     }
   }, [filesLoad]);
 
-  const triggerFileLoad = useCallback(
-    (files: FilesState) => {
-      const newState = [...filesLoad, ...files];
-      setFilesLoad(newState as FilesState);
-    },
-    [filesLoad],
-  );
-
   const customLoader = ({ src }: { src: any }) => `${src}`;
-  const onChange = (files: FilesState) => {
-    triggerFileLoad(files);
-    const stateAux = [...filesCopy, ...files];
-    setFilesCopy(stateAux as FilesState);
-  };
 
   useEffect(() => {
     if (text !== '') {
@@ -58,7 +44,7 @@ const ScreenUploader = () => {
   return (
     <Fragment>
       <Box paddingTop="40px">
-        <Uploader onChange={onChange} multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
+        <Uploader multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
       </Box>
       {filesLoad.length > 0 && (
         <Box display="flex" justifyContent="center" alignItems="center" marginY="30px">

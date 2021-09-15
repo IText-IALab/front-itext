@@ -9,7 +9,9 @@ export type GlobalFile = {
 
 const UploaderContext = createContext<GlobalFile>({
   filesUploaded: [],
-  setFilesUploaded: () => {},
+  setFilesUploaded: () => {
+    // this is a function type
+  },
 });
 
 // hook

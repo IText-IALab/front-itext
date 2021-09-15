@@ -32,7 +32,6 @@ const uploaderController = {
         base64: text,
       };
       const res = await uploaderService.sendDocuments(doc);
-      console.log(res);
       if (res.success) {
         console.log('success');
       } else {
