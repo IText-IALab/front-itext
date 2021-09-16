@@ -44,7 +44,11 @@ const ScreenUploader = () => {
   return (
     <Fragment>
       <Box paddingTop="40px">
-        <Uploader multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
+        <Uploader
+          multiple={false}
+          accept="image/jpg, image/jpeg, image/png, application/pdf"
+          disabled={filesUploaded.length > 0}
+        />
       </Box>
       {filesLoad.length > 0 && (
         <Box display="flex" justifyContent="center" alignItems="center" marginY="30px">
@@ -66,6 +70,7 @@ const ScreenUploader = () => {
             </Card>
           ))}
         <Button
+          disabled={filesUploaded.length === 0}
           onClick={() => {
             getFile(filesUploaded[0].file);
           }}

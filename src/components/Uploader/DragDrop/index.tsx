@@ -18,9 +18,10 @@ interface UploaderProps {
   multiple?: boolean;
   title?: string;
   accept?: string;
+  disabled: boolean;
 }
 
-const Uploader = ({ multiple = true, title = '', accept = 'image/*' }: UploaderProps) => {
+const Uploader = ({ multiple = true, title = '', accept = 'image/*', disabled = false }: UploaderProps) => {
   const placeholder = title || i18n.get('PLACEHOLDER_UPLOADER_DRAG');
   const { setFilesUploaded } = useUploaderContext();
 
@@ -32,6 +33,7 @@ const Uploader = ({ multiple = true, title = '', accept = 'image/*' }: UploaderP
     accept,
     multiple,
     onDrop: useCallback(foo, [setFilesUploaded]),
+    disabled,
   });
 
   return (
