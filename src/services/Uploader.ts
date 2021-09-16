@@ -16,7 +16,7 @@ import axiosHelper, { axiosError, axiosResponse } from '~/utils/axiosHelper';
 const APIClient = axios.create({
   baseURL: CONFIG.SERVICES.UPLOADER.URL,
   headers: {
-    'X-API-KEY': `WOEIRUFHGJTMGJTURJFHGNVDDLCKDIWOEIRUFHGJTMGJTURJFHGNVDDLCKDI`,
+    'X-API-KEY': CONFIG.SERVICES.UPLOADER.API_KEY,
   },
 });
 
