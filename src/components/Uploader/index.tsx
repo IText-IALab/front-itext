@@ -1,14 +1,16 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
-import { Box, Card, CardActionArea, CardContent, CircularProgress, Typography } from '@material-ui/core';
+import { Button, Box, Card, CardActionArea, CardContent, CircularProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
 
 import Uploader, { FilesState } from './DragDrop';
 import styles from './index.module.scss';
+import uploaderController from '~/controller/uploader';
 import { useUploaderContext } from '~/providers/uploader/UploaderContext';
 import { uploaderSelector } from '~/state/features/uploaderSlice';
+import { getFile } from '~/utils/ToBase64';
 
 const useStyles = makeStyles({
   root: {
@@ -20,10 +22,9 @@ const useStyles = makeStyles({
 const ScreenUploader = () => {
   const classes = useStyles();
   const [filesLoad, setFilesLoad] = useState<FilesState | []>([]);
-  const [filesCopy, setFilesCopy] = useState<FilesState | []>([]);
-  const { filesUploader } = useUploaderContext();
+  const { filesUploaded } = useUploaderContext();
+  const { text } = useSelector(uploaderSelector);
 
-  console.log(filesUploader);
   useEffect(() => {
     if (filesLoad.length > 0) {
       setTimeout(() => {
@@ -31,25 +32,23 @@ const ScreenUploader = () => {
       }, 6000);
     }
   }, [filesLoad]);
-  const triggerFileLoad = useCallback(
-    (files: FilesState) => {
-      const newState = [...filesLoad, ...files];
-      setFilesLoad(newState as FilesState);
-    },
-    [filesLoad],
-  );
 
   const customLoader = ({ src }: { src: any }) => `${src}`;
-  const onChange = (files: FilesState) => {
-    triggerFileLoad(files);
-    const stateAux = [...filesCopy, ...files];
-    setFilesCopy(stateAux as FilesState);
-  };
+
+  useEffect(() => {
+    if (text !== '') {
+      uploaderController.sendDocuments(text);
+    }
+  }, [text]);
 
   return (
     <Fragment>
       <Box paddingTop="40px">
-        <Uploader onChange={onChange} multiple={false} accept="image/jpg, image/jpeg, image/png, application/pdf" />
+        <Uploader
+          multiple={false}
+          accept="image/jpg, image/jpeg, image/png, application/pdf"
+          disabled={filesUploaded.length > 0}
+        />
       </Box>
       {filesLoad.length > 0 && (
         <Box display="flex" justifyContent="center" alignItems="center" marginY="30px">
@@ -57,8 +56,8 @@ const ScreenUploader = () => {
         </Box>
       )}
       <div className={styles.file_list}>
-        {filesUploader.length > 0 &&
-          filesUploader.map((file, i) => (
+        {filesUploaded.length > 0 &&
+          filesUploaded.map((file, i) => (
             <Card className={classes.root} key={`${file.imageUrl}${i.toString()}`}>
               <CardActionArea>
                 <Image loader={customLoader} alt="Avatar" width={120} height={140} src={file.imageUrl} />
@@ -70,6 +69,14 @@ const ScreenUploader = () => {
               </CardActionArea>
             </Card>
           ))}
+        <Button
+          disabled={filesUploaded.length === 0}
+          onClick={() => {
+            getFile(filesUploaded[0].file);
+          }}
+        >
+          Enviar
+        </Button>
       </div>
     </Fragment>
   );

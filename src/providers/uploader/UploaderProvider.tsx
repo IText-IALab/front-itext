@@ -6,7 +6,7 @@ import { FilesState } from '~/types/uploader';
 const UploaderProvider = (props: any) => {
   const [files, setFiles] = useState<FilesState[]>([]);
 
-  const setFilesUploader = (file: File) => {
+  const setFilesUploaded = (file: File) => {
     const newFile: FilesState = {
       file,
       imageUrl: URL.createObjectURL(file),
@@ -15,8 +15,8 @@ const UploaderProvider = (props: any) => {
   };
 
   const value = {
-    setFilesUploader,
-    filesUploader: files,
+    setFilesUploaded,
+    filesUploaded: files,
   };
 
   return <UploaderContext.Provider value={value}>{props.children}</UploaderContext.Provider>;

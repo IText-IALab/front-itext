@@ -11,10 +11,12 @@ import { FilesState } from '~/types/uploader';
 
 export type ArrayFilesState = {
   files: FilesState[];
+  text: string;
 };
 
 const initialState: ArrayFilesState = {
   files: [],
+  text: '',
 };
 
 const uploaderSlice = createSlice({
@@ -24,11 +26,14 @@ const uploaderSlice = createSlice({
     addFile: (state: ArrayFilesState, action: PayloadAction<FilesState>) => {
       state.files.push(action.payload);
     },
+    setFileString: (state: ArrayFilesState, action: PayloadAction<string>) => {
+      state.text = action.payload;
+    },
   },
 });
 
 export const uploaderSelector = (state: RootState): ArrayFilesState => state.uploader;
 
-export const { addFile } = uploaderSlice.actions;
+export const { addFile, setFileString } = uploaderSlice.actions;
 
 export default uploaderSlice.reducer;

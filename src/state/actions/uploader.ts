@@ -27,6 +27,13 @@ const uploaderActions = {
   addFile: (file: FilesState) => {
     store.dispatch(uploader.addFile(file));
   },
+
+  /**
+   * Set file to base 64
+   */
+  setFileString: (file: string) => {
+    store.dispatch(uploader.setFileString(file));
+  },
 };
 
 export default uploaderActions;

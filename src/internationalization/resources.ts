@@ -79,6 +79,9 @@ const resources = {
       FORM_REMEMBER_ME_LABEL: 'Recordarme',
       FORM_RESET_BUTTON_LABEL: 'Resetear',
       FORM_SUBMIT_BUTTON_LABEL: 'Enviar',
+
+      // UPLOADER_SCREEN
+      PLACEHOLDER_UPLOADER_DRAG: 'Arrastre su archivo hasta aqui',
     },
   },
   en: {
@@ -155,6 +158,9 @@ const resources = {
       FORM_REMEMBER_ME_LABEL: 'Remember me',
       FORM_RESET_BUTTON_LABEL: 'Reset',
       FORM_SUBMIT_BUTTON_LABEL: 'Submit',
+
+      // UPLOADER_SCREEN
+      PLACEHOLDER_UPLOADER_DRAG: 'Drag your file here',
     },
   },
 };
